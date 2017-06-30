@@ -1,0 +1,32 @@
+---
+- hosts: all
+  remote_user: root
+  task:
+
+  - name: Instalar Git
+    apt: name=git state=latest
+
+  - name: Clonar Drupal
+    git: >
+      repo=http://git.drupal.org/project/drupal.git
+      dest=/var/www/html/drupal/
+      update=no
+
+  - name: Crear settings.php
+    command: cp /var/www/html/drupal/sites/default/default.settings.php /var/www/html/drupal/sites/default/settings.php
+
+  - name: Crear services.yml
+    command: cp /var/www/html/drupal/sites/default/default.services.yml /var/www/html/drupal/sites/default/services.yml
+
+  - name: Actualizar permisos de settings.php
+    file: path=/var/www/html/drupal/sites/default/settings.php mode=777
+
+  - name: Actualizar permisos de services.yml
+    file: path=/var/www/html/drupal/sites/default/services.yml mode=777
+
+  - name: Actualizar permisos de las carpetas
+    file: >
+    path=/var/www/html/drupal/sites/default/files
+    mode=777
+    state=directory
+    recurse=yes

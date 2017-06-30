@@ -1,0 +1,23 @@
+---
+- hosts: all
+  remote_user: root
+  task:
+
+    - name: Crear base de datos para Drupal
+       mysql_db:
+       name: drupal
+       state: present
+
+    - name: Clonar datos localmente
+      git: >
+      repo=https://github.com/marv007/hdp2017_files.git
+      dest=/var/www/html/
+      update=no
+
+    - name: Importar base de datos
+      mysql_db:
+      name: drupal
+      state: import
+      target: /var/www/html/drupal.sql
+
+    
