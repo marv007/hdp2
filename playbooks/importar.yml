@@ -5,7 +5,7 @@
 
     - name: Crear base de datos para Drupal
        mysql_db:
-       name: drupal
+       name: {{ drupal }}
        state: present
 
     - name: Clonar datos localmente
